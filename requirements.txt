@@ -3,3 +3,6 @@ pandas>=2.3.3
 numpy>=2.4.3
 seaborn>=0.13.0
 plotly>=5.18.0
+folium
+streamlit-folium
+ip2geotools
