@@ -11,7 +11,6 @@ import pandas as pd
 import plotly.express as px
 import folium
 from streamlit_folium import folium_static
-from ip2geotools.databases.noncommercial import DbIpCity
 
 # ---------------------- 1. 页面配置（与原代码风格统一） ----------------------
 st.set_page_config(page_title="Internet Slang Dashboard", page_icon="🛜", layout="wide")
