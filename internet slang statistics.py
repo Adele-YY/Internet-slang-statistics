@@ -140,46 +140,7 @@ fig_age_pie = px.pie(
 col3.plotly_chart(fig_age_pie, use_container_width=True)
 
 # ---------------------- 8. 需求5：IP定位地图（带标记点） ----------------------
-st.header("🗺️ IP Location Distribution")
 
-# 从IP提取经纬度（缓存避免重复计算）
-@st.cache_data
-def get_ip_location(df_ip):
-    df_ip['Lat'] = None
-    df_ip['Lng'] = None
-    for idx, ip in enumerate(df_ip['IP']):
-        try:
-            if pd.notna(ip) and ip != '':
-                response = DbIpCity.get(ip, api_key='free')
-                df_ip.at[idx, 'Lat'] = response.latitude
-                df_ip.at[idx, 'Lng'] = response.longitude
-        except:
-            continue
-    return df_ip[pd.notna(df_ip['Lat']) & pd.notna(df_ip['Lng'])]
-
-# 筛选有IP且能定位的数据
-df_map = get_ip_location(filtered_df.copy())
-
-if len(df_map) > 0:
-    # 创建地图（以澳门为中心，适配你的数据）
-    m = folium.Map(location=[22.198, 113.543], zoom_start=10)
-    
-    # 添加标记点（每个IP一个标记）
-    for _, row in df_map.iterrows():
-        folium.CircleMarker(
-            location=[row['Lat'], row['Lng']],
-            radius=6,
-            popup=f"Gender: {row['Gender']} (0=F/1=M)<br>Age: {row['Age']}<br>#_Total: {row['#_Total']}",
-            color='blue',
-            fill=True,
-            fill_color='blue',
-            fill_opacity=0.7
-        ).add_to(m)
-    
-    # 在Streamlit中显示地图
-    folium_static(m, width=1200, height=600)
-else:
-    st.warning("No valid IP locations found. Please check the 'IP' column in your CSV.")
 
 # ---------------------- 9. 需求6：获取渠道柱状图对比 ----------------------
 st.header("📊 Acquisition Channel Comparison")
